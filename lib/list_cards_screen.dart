@@ -12,13 +12,28 @@ class _ListCardsScreenState extends State<ListCardsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Focus Targets"),
+        title: const Text("Focus Targets"),
       ),
       body: ListView.builder(
         itemCount: image.length,
         itemBuilder: (BuildContext context, int index) {
           return card(image[index], title[index], context);
         },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          //Code to execute
+        },
+        child: const Icon(Icons.add),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 3,
+        child: BottomNavigationBar(items: [
+            BottomNavigationBarItem(icon: const Icon(Icons.menu), label: 'menuNavBar'),
+            BottomNavigationBarItem(icon: const Icon(Icons.report), label: 'searchNavBar'),
+          ],)
       ),
     );
   }
