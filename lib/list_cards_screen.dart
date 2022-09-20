@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+int counter = 1;
+
+ListView time_trackers = ListView();
+
 class ListCardsScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() =>  _ListCardsScreenState();
@@ -15,7 +19,7 @@ class _ListCardsScreenState extends State<ListCardsScreen> {
         title: const Text("Focus Targets"),
       ),
       body: ListView.builder(
-        itemCount: image.length,
+        itemCount: counter,
         itemBuilder: (BuildContext context, int index) {
           return card(image[index], title[index], context);
         },
@@ -23,7 +27,9 @@ class _ListCardsScreenState extends State<ListCardsScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //Code to execute
+          setState(() {
+            counter = counter+1;
+          });
         },
         child: const Icon(Icons.add),
       ),
@@ -49,14 +55,7 @@ Widget card(String image, String title, BuildContext context) {
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     child: Column(
       children: [
-        Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Image.network(
-            image,
-            height: MediaQuery.of(context).size.width * (3 / 4),
-            width: MediaQuery.of(context).size.width,
-          ),
-        ),
+       
         Text(
           title,
           style: TextStyle(
@@ -74,3 +73,4 @@ List<String> image = [
   'https://cdn.pixabay.com/photo/2017/10/20/10/58/elephant-2870777_960_720.jpg',
   'https://cdn.pixabay.com/photo/2014/09/08/17/32/humming-bird-439364_960_720.jpg','https://cdn.pixabay.com/photo/2018/05/03/22/34/lion-3372720_960_720.jpg'];
 List<String> title = ['Sparrow', 'Elephant', 'Humming Bird', 'Lion'];
+
