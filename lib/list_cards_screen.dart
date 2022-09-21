@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 int counter = 1;
 
@@ -29,6 +30,9 @@ class _ListCardsScreenState extends State<ListCardsScreen> {
         onPressed: () {
           setState(() {
             counter = counter+1;
+          });
+          showDialog(context: context, builder: (BuildContext context){
+            return new_focus_dialog(context);
           });
         },
         child: const Icon(Icons.add),
@@ -74,3 +78,19 @@ List<String> image = [
   'https://cdn.pixabay.com/photo/2014/09/08/17/32/humming-bird-439364_960_720.jpg','https://cdn.pixabay.com/photo/2018/05/03/22/34/lion-3372720_960_720.jpg'];
 List<String> title = ['Sparrow', 'Elephant', 'Humming Bird', 'Lion'];
 
+Widget new_focus_dialog(BuildContext context) {
+  return const SimpleDialog(
+    title:Text('New Focus'),
+    children: <Widget>[
+      
+      TextField(
+        
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'Focus Area',
+        ),
+
+      ),
+    ]
+  );
+}
