@@ -1,14 +1,41 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 int counter = 1;
 
-ListView time_trackers = ListView();
+String timerRawFile = '''
+{
+  "array": [
+    {
+      "name":"Work",
+      "target_minutes": 200
+    },{
+      "name":"Study",
+      "target_minutes": 200
+    },{
+      "name":"Play",
+      "target_minutes": 200
+    }
+  ]
+}
+''';
+
+String timerRawFile2 = '''
+{
+      "name":"Work",
+      "target_minutes": 200
+    }
+''';
+
+Map<String, dynamic> time_trackers = jsonDecode(timerRawFile);
+Map<String, dynamic> time_trackers_2 = jsonDecode(timerRawFile2);
+
 
 class ListCardsScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() =>  _ListCardsScreenState();
-  
 }
 
 
@@ -29,10 +56,10 @@ class _ListCardsScreenState extends State<ListCardsScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            counter = counter+1;
+            counter = counter;
           });
           showDialog(context: context, builder: (BuildContext context){
-            return new_focus_dialog(context);
+            return new_focus_dialog();
           });
         },
         child: const Icon(Icons.add),
@@ -52,6 +79,9 @@ class _ListCardsScreenState extends State<ListCardsScreen> {
 
 
 Widget card(String image, String title, BuildContext context) {
+  print(time_trackers);
+  print(time_trackers.entries);
+  print(time_trackers_2['name']);
   return Card(
     color: Colors.yellow[50],
     elevation: 8.0,
@@ -78,19 +108,66 @@ List<String> image = [
   'https://cdn.pixabay.com/photo/2014/09/08/17/32/humming-bird-439364_960_720.jpg','https://cdn.pixabay.com/photo/2018/05/03/22/34/lion-3372720_960_720.jpg'];
 List<String> title = ['Sparrow', 'Elephant', 'Humming Bird', 'Lion'];
 
-Widget new_focus_dialog(BuildContext context) {
-  return const SimpleDialog(
-    title:Text('New Focus'),
-    children: <Widget>[
-      
-      TextField(
-        
+
+class new_focus_dialog extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return new_focus_dialog_state();
+  }
+
+}
+
+class new_focus_dialog_state extends State<new_focus_dialog> {
+  int _current_hour = 0;
+  int _current_minute = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(children: <Widget>[
+      const TextField(
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           hintText: 'Focus Area',
         ),
-
       ),
-    ]
-  );
+      Text("Target hours"),
+      Row(children: [
+        Expanded(
+            child: Column(
+              children: [
+                      Text("Hours"),
+
+            NumberPicker(
+          minValue: 0,
+          maxValue: 23,
+          value: _current_hour,
+          onChanged: (value) => setState(() {
+            _current_hour = value;
+          }),
+        ),
+        ]
+        )),
+        Expanded(
+          child: Column(
+            children: [
+              Text("Minutes"),
+              NumberPicker(
+          minValue: 0,
+          maxValue: 55,
+          step: 5,
+          value: _current_minute,
+          onChanged: (value) => setState(() {
+            print(_current_minute);
+            _current_minute = value;
+          }),
+        )]),
+    )]),
+    ElevatedButton(
+      onPressed: () => {}, 
+      child: const Text("+") 
+      )
+    ]);
+  }
 }
+
+
